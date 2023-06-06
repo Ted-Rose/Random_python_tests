@@ -1,27 +1,29 @@
-call_count = 0
+class FakeValue:
+    def __init__(self):
+        self.call_count = 0
 
-def callable(value_as_abc):
-    global call_count
-    if value_as_abc:
-        value = "ABC"
-    else:
-        value = "123"
+    def callable(self, value_as_abc):
+        if value_as_abc:
+            value = "ABC"
+        else:
+            value = "123"
 
-    call_count += 1
-    return value, call_count
+        self.call_count += 1
+        return value, self.call_count
 
-def caller():
-    global call_count
-    value_as_abc = True
+    def caller(self):
+        value_as_abc = True
 
-    while call_count < 3:
-        value, call_count = callable(value_as_abc)
+        while self.call_count < 3:
+            value, call_count = self.callable(value_as_abc)
+            print("Value:", value)
+            print("Call count:", call_count)
+
+        value_as_abc = False
+        value, call_count = self.callable(value_as_abc)
         print("Value:", value)
         print("Call count:", call_count)
 
-    value_as_abc = False
-    value, call_count = callable(value_as_abc)
-    print("Value:", value)
-    print("Call count:", call_count)
 
-caller()
+fake_value = FakeValue()
+fake_value.caller()
